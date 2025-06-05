@@ -38,7 +38,6 @@ public class NpcController : MonoBehaviour
         float distance = Vector3.Distance(transform.position, player.position);
         if (distance <= triggerDistance)
         {
-            Debug.Log("Start follow!");
             StartCoroutine(FollowThenReturn());
         }
     }
