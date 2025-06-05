@@ -6,10 +6,14 @@ public class CoffeeCup : Interactable
     private Rigidbody rb;
     private bool isHeld = false;
     //private bool isInCoffeeMachineZone = false;
-
+    [Header("Liquid in cup")]
+    [SerializeField] private GameObject coffeeLiquid;
+    //[SerializeField] private Vector3 liquidMinScale;    
+    //[SerializeField] private Vector3 liquidMaxScale;    
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        coffeeLiquid.SetActive(false);
     }
 
     void FixedUpdate()
@@ -90,5 +94,11 @@ public class CoffeeCup : Interactable
         Debug.Log("Cup auto-placed from trigger zone.");
     }
 
+    public void UpdateLiquidInCup(float progress) 
+    {
+        if(!coffeeLiquid.activeSelf) coffeeLiquid.SetActive(true);
 
+        Vector3 liquidObjectScale = new Vector3(0.75f + (0.25f * progress), 0.75f + (0.25f * progress), progress);
+        coffeeLiquid.transform.localScale = liquidObjectScale;
+    }
 }
