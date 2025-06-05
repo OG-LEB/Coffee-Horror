@@ -12,12 +12,14 @@ public class CoffeeCup : Interactable
     //[SerializeField] private Vector3 liquidMaxScale;
     [SerializeField] private GameObject Cap;
     [SerializeField] private GameObject CapTrigger;
+    private bool isCoffeReady;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         coffeeLiquid.SetActive(false);
         Cap.SetActive(false);
         CapTrigger.SetActive(false);
+        isCoffeReady = false;
     }
 
     //private void Update()
@@ -131,9 +133,14 @@ public class CoffeeCup : Interactable
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.isKinematic = false;
+        isCoffeReady = true;
     }
     public void SetCapTrigger(bool isActive)
     {
         CapTrigger.SetActive(isActive);
+    }
+    public bool IsCoffeeReady() 
+    {
+        return isCoffeReady;
     }
 }
