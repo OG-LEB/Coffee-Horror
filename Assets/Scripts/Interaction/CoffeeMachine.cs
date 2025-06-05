@@ -50,7 +50,7 @@ public class CoffeeMachine : MonoBehaviour
             if (brewTimer >= brewTime)
             {
                 FinishBrewing();
-                Debug.Log("Coffee is ready!");
+                //Debug.Log("Coffee is ready!");
             }
         }
     }
@@ -71,6 +71,7 @@ public class CoffeeMachine : MonoBehaviour
         isBrewing = false;
         //pourSound?.Stop();
         //steamEffect?.Stop();
+        cup.SetCapTrigger(true);
         CoffeeStepManager.Instance.AdvanceStep();
         Debug.Log("Coffee brewed.");
     }

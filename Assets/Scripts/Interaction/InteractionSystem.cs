@@ -16,7 +16,6 @@ public class InteractionSystem : MonoBehaviour
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, interactDistance, interactMask))
         {
 
-
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Interactable interactable = hit.collider.GetComponent<Interactable>();

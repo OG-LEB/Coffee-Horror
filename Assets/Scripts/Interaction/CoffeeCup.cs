@@ -6,15 +6,31 @@ public class CoffeeCup : Interactable
     private Rigidbody rb;
     private bool isHeld = false;
     //private bool isInCoffeeMachineZone = false;
-    [Header("Liquid in cup")]
+    [Header("Visual")]
     [SerializeField] private GameObject coffeeLiquid;
     //[SerializeField] private Vector3 liquidMinScale;    
-    //[SerializeField] private Vector3 liquidMaxScale;    
+    //[SerializeField] private Vector3 liquidMaxScale;
+    [SerializeField] private GameObject Cap;
+    [SerializeField] private GameObject CapTrigger;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         coffeeLiquid.SetActive(false);
+        Cap.SetActive(false);
+        CapTrigger.SetActive(false);
     }
+
+    //private void Update()
+    //{
+    //    if (isHeld && Input.GetKeyDown(KeyCode.E) && (CoffeeStepManager.Instance.IsCurrentStep(CoffeeStepManager.Step.PlaceCup))) 
+    //    {
+    //        isHeld = false;
+    //        rb.useGravity = true;
+    //        rb.velocity = Vector3.zero;
+    //        rb.angularVelocity = Vector3.zero;
+    //        CoffeeStepManager.Instance.ReverceStep();
+    //    }
+    //}
 
     void FixedUpdate()
     {
@@ -32,20 +48,25 @@ public class CoffeeCup : Interactable
 
     public override void Interact()
     {
-        if (CoffeeStepManager.Instance.IsCurrentStep(CoffeeStepManager.Step.GrabCup) && !isHeld)
+        if ((CoffeeStepManager.Instance.IsCurrentStep(CoffeeStepManager.Step.GrabCup) || (CoffeeStepManager.Instance.IsCurrentStep(CoffeeStepManager.Step.ServeToNPC)) && !isHeld))
         {
             isHeld = true;
             rb.useGravity = false;
             rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-            CoffeeStepManager.Instance.AdvanceStep();
+
+            if (CoffeeStepManager.Instance.IsCurrentStep(CoffeeStepManager.Step.GrabCup))
+                CoffeeStepManager.Instance.AdvanceStep();
         }
-        else if (CoffeeStepManager.Instance.IsCurrentStep(CoffeeStepManager.Step.PlaceCup) && isHeld)
+        //else if (CoffeeStepManager.Instance.IsCurrentStep(CoffeeStepManager.Step.PlaceCup) && isHeld)
+        else if (isHeld)
         {
             isHeld = false;
             rb.useGravity = true;
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            CoffeeStepManager.Instance.ReverceStep();
+
+            if (CoffeeStepManager.Instance.IsCurrentStep(CoffeeStepManager.Step.PlaceCup))
+                CoffeeStepManager.Instance.ReverceStep();
 
             //if (isInCoffeeMachineZone)
             //{
@@ -94,11 +115,25 @@ public class CoffeeCup : Interactable
         Debug.Log("Cup auto-placed from trigger zone.");
     }
 
-    public void UpdateLiquidInCup(float progress) 
+    public void UpdateLiquidInCup(float progress)
     {
-        if(!coffeeLiquid.activeSelf) coffeeLiquid.SetActive(true);
+        if (!coffeeLiquid.activeSelf) coffeeLiquid.SetActive(true);
 
         Vector3 liquidObjectScale = new Vector3(0.75f + (0.25f * progress), 0.75f + (0.25f * progress), progress);
         coffeeLiquid.transform.localScale = liquidObjectScale;
+    }
+    public void EnableCap()
+    {
+        Cap.SetActive(true);
+        CapTrigger.SetActive(false);
+
+        rb.useGravity = true;
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.isKinematic = false;
+    }
+    public void SetCapTrigger(bool isActive)
+    {
+        CapTrigger.SetActive(isActive);
     }
 }

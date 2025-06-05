@@ -10,7 +10,7 @@ public class CoffeeStepManager : MonoBehaviour
         PlaceCup,
         BrewCoffee,
         GrabLid,
-        Assemble,
+        //Assemble,
         ServeToNPC
     }
 

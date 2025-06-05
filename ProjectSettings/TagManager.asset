@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CoffeeZone
   - CoffeeCup
+  - Cap
   layers:
   - Default
   - TransparentFX
