@@ -151,51 +151,52 @@ public class FirstPersonController : MonoBehaviour
 
     void Start()
     {
-        if(lockCursor)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+        Cursor.lockState = CursorLockMode.Locked;
+        //if(lockCursor)
+        //{
+        //    Cursor.lockState = CursorLockMode.Locked;
+        //}
 
-        if(crosshair)
-        {
-            crosshairObject.sprite = crosshairImage;
-            crosshairObject.color = crosshairColor;
-        }
-        else
-        {
-            crosshairObject.gameObject.SetActive(false);
-        }
+        //if(crosshair)
+        //{
+        //    crosshairObject.sprite = crosshairImage;
+        //    crosshairObject.color = crosshairColor;
+        //}
+        //else
+        //{
+        //    crosshairObject.gameObject.SetActive(false);
+        //}
 
-        #region Sprint Bar
+        //#region Sprint Bar
 
-        sprintBarCG = GetComponentInChildren<CanvasGroup>();
+        //sprintBarCG = GetComponentInChildren<CanvasGroup>();
 
-        if(useSprintBar)
-        {
-            sprintBarBG.gameObject.SetActive(true);
-            sprintBar.gameObject.SetActive(true);
+        //if(useSprintBar)
+        //{
+        //    sprintBarBG.gameObject.SetActive(true);
+        //    sprintBar.gameObject.SetActive(true);
 
-            float screenWidth = Screen.width;
-            float screenHeight = Screen.height;
+        //    float screenWidth = Screen.width;
+        //    float screenHeight = Screen.height;
 
-            sprintBarWidth = screenWidth * sprintBarWidthPercent;
-            sprintBarHeight = screenHeight * sprintBarHeightPercent;
+        //    sprintBarWidth = screenWidth * sprintBarWidthPercent;
+        //    sprintBarHeight = screenHeight * sprintBarHeightPercent;
 
-            sprintBarBG.rectTransform.sizeDelta = new Vector3(sprintBarWidth, sprintBarHeight, 0f);
-            sprintBar.rectTransform.sizeDelta = new Vector3(sprintBarWidth - 2, sprintBarHeight - 2, 0f);
+        //    sprintBarBG.rectTransform.sizeDelta = new Vector3(sprintBarWidth, sprintBarHeight, 0f);
+        //    sprintBar.rectTransform.sizeDelta = new Vector3(sprintBarWidth - 2, sprintBarHeight - 2, 0f);
 
-            if(hideBarWhenFull)
-            {
-                sprintBarCG.alpha = 0;
-            }
-        }
-        else
-        {
-            sprintBarBG.gameObject.SetActive(false);
-            sprintBar.gameObject.SetActive(false);
-        }
+        //    if(hideBarWhenFull)
+        //    {
+        //        sprintBarCG.alpha = 0;
+        //    }
+        //}
+        //else
+        //{
+        //    sprintBarBG.gameObject.SetActive(false);
+        //    sprintBar.gameObject.SetActive(false);
+        //}
 
-        #endregion
+        //#endregion
     }
 
     float camRotation;
