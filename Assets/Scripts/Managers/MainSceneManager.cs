@@ -16,22 +16,25 @@ public class MainSceneManager : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = -1; 
+        QualitySettings.vSyncCount = 0;
+
         SpawnPlayer();
         DarkCameraEffects.SetActive(true);
         FriendlyCameraEffects.SetActive(false);
         EnterShopTrigger.SetActive(true);
         ExitShopTrigger.SetActive(false);
-        NotificationSystem.Instance.ShowMessage("Какое мрачное место. Надо осмотреться...", 5f);
+        NotificationSystem.Instance.ShowMessage("Это место кажется мне знакомым. Надо осмотреться...", 5f);
 
         ambient.loop = true;
         ambient.clip = dark;
         ambient.Play();
     }
-    private void SpawnPlayer() 
+    private void SpawnPlayer()
     {
         PlayerObj.transform.position = PlayerSpawnPoint.position;
     }
-    public void SwitchToDarkCameraEffects() 
+    public void SwitchToDarkCameraEffects()
     {
         glitch.Play();
         DarkCameraEffects.SetActive(true);
@@ -52,8 +55,15 @@ public class MainSceneManager : MonoBehaviour
         ambient.Play();
     }
 
-    public void Monologue(string message) 
+    public void Monologue(string message)
     {
         NotificationSystem.Instance.ShowMessage(message, 5f);
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 }

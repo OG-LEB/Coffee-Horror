@@ -45,7 +45,7 @@ public class CoffeeStepManager : MonoBehaviour
 
                 break;
             case Step.GrabLid:
-                NotificationSystem.Instance.ShowMessage("Теперь нам нужна крыжка для стаканчика.", 2.5f);
+                NotificationSystem.Instance.ShowMessage("Теперь нам нужна крышка для стаканчика.", 2.5f);
 
                 break;
             case Step.ServeToNPC:
