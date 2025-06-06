@@ -76,6 +76,7 @@ public class CoffeeMachine : MonoBehaviour
         audioSource.Stop();
         cup.SetCapTrigger(true);
         CoffeeStepManager.Instance.AdvanceStep();
+        cup.CanDrag = true;
         //Debug.Log("Coffee brewed.");
     }
 }
