@@ -14,6 +14,7 @@ public class CoffeeMachine : MonoBehaviour
     private bool isBrewing = false;
     private float brewTimer = 0f;
     private CoffeeCup cup;
+    [SerializeField] private AudioSource audioSource;
 
     [Header("Visual")]
     [SerializeField] private GameObject CoffeeFlow;
@@ -62,6 +63,7 @@ public class CoffeeMachine : MonoBehaviour
         brewTimer = 0f;
         //pourSound?.Play();
         //steamEffect?.Play();
+        audioSource.Play();
         Debug.Log("Start brewing coffee...");
     }
 
@@ -71,6 +73,7 @@ public class CoffeeMachine : MonoBehaviour
         isBrewing = false;
         //pourSound?.Stop();
         //steamEffect?.Stop();
+        audioSource.Stop();
         cup.SetCapTrigger(true);
         CoffeeStepManager.Instance.AdvanceStep();
         Debug.Log("Coffee brewed.");
