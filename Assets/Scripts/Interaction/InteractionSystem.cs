@@ -15,6 +15,7 @@ public class InteractionSystem : MonoBehaviour
     {
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, interactDistance, interactMask))
         {
+            Debug.Log($"{hit.transform.name}");
 
             if (Input.GetKeyDown(KeyCode.E))
             {
