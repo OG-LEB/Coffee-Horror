@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class NpcController : MonoBehaviour
 {
@@ -19,7 +21,14 @@ public class NpcController : MonoBehaviour
     private Animator animator;
     private NpcFootsteps footstepsScript;
 
+    [Header("GameOver")]
+    [SerializeField] private GameObject doorOpened, doorClosed, trigger0, trigger1;
+
     [SerializeField] private GameObject MoneyText;
+    [SerializeField] private MainSceneManager mainSceneManager;
+    [SerializeField] private AudioSource Screamer;
+    [SerializeField] private GameObject NcpModel, NpcScaryModel, ModelsBehindWindow;
+    [SerializeField] private GameObject ScaryEffects;
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -106,14 +115,71 @@ public class NpcController : MonoBehaviour
             if (other.GetComponent<CoffeeCup>().IsCoffeeReady())
             {
                 NotificationSystem.Instance.ShowMessage("Спасибо за кофе! Держи немного денег за работу.", 2f);
-                //Money Sound
                 Instantiate(MoneyText, other.transform.position, Quaternion.identity);
                 Destroy(other.gameObject);
+                StartCoroutine(GameEnd());
             }
             else
             {
                 NotificationSystem.Instance.ShowMessage("Мне нужен кофе, а не пустой стаканчик!", 2f);
             }
         }
+    }
+
+    private IEnumerator GameEnd() 
+    {
+        trigger0.SetActive(false);
+        trigger1.SetActive(false);
+        doorOpened.SetActive(false);
+        doorClosed.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+
+        NotificationSystem.Instance.ShowMessage("Кофе… тёплый, как воспоминание.", 2f);
+        yield return new WaitForSeconds(3f);
+
+        NotificationSystem.Instance.ShowMessage("Не смотри на дверь, она уже заперта", 2f);
+        yield return new WaitForSeconds(3f);
+
+        mainSceneManager.SwitchToDarkCameraEffects();
+        trigger0.SetActive(false);
+        trigger1.SetActive(false);
+
+        NotificationSystem.Instance.ShowMessage("Теперь ты останешься с нами.", 2f);
+        yield return new WaitForSeconds(3f);
+
+        //Вот тут пиздец
+        Screamer.Play();
+        NcpModel.SetActive(false);
+        NpcScaryModel.SetActive(true);
+        ModelsBehindWindow.SetActive(true);
+        ScaryEffects.SetActive(true);
+        FadeToBlack(3f);
+        yield return new WaitForSeconds(6f);
+        SceneManager.LoadScene(0);
+    }
+
+    //Fade
+    public Image fadeImage;
+
+    public void FadeToBlack(float duration)
+    {
+        StartCoroutine(FadeCoroutine(duration));
+    }
+
+    private IEnumerator FadeCoroutine(float duration)
+    {
+        float time = 0f;
+        Color startColor = fadeImage.color;
+        Color endColor = new Color(0, 0, 0, 1); // Полностью черный
+
+        while (time < duration)
+        {
+            fadeImage.color = Color.Lerp(startColor, endColor, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        fadeImage.color = endColor;
     }
 }
