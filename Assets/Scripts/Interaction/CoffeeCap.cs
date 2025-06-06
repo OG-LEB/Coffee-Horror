@@ -8,22 +8,13 @@ public class CoffeeCap : Interactable
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        CanDrag = true;
     }
     private float holdDistance;
     void FixedUpdate()
     {
         if (isHeld)
         {
-            //Vector3 direction = (holdPoint.position - transform.position);
-            //rb.MovePosition(transform.position + direction * 10f * Time.fixedDeltaTime); 
-
-            ////////////
-            //Vector3 targetPosition = Camera.main.transform.position + Camera.main.transform.forward * holdDistance;
-
-            //Vector3 direction = targetPosition - transform.position;
-            //rb.MovePosition(transform.position + direction * 10f * Time.fixedDeltaTime);
-
-
             float maxHoldDistance = 1.0f; 
 
             float currentHoldDistance = Mathf.Min(holdDistance, maxHoldDistance);
@@ -48,7 +39,8 @@ public class CoffeeCap : Interactable
             rb.useGravity = false;
             rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             holdDistance = Vector3.Distance(Camera.main.transform.position, transform.position);
-
+            CanDrag = false;
+            SetOutline(false);
         }
         else if (isHeld)
         {
@@ -56,7 +48,7 @@ public class CoffeeCap : Interactable
             rb.useGravity = true;
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            //CoffeeStepManager.Instance.ReverceStep();
+            CanDrag = true;
         }
     }
 

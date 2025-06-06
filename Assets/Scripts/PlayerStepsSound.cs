@@ -52,15 +52,12 @@ public class PlayerStepsSound : MonoBehaviour
 
     void PlayStepSound()
     {
-        Debug.Log("Play step sound");
         Ray ray = new Ray(GroundCheckPosition.position + Vector3.up * 0.1f, Vector3.down);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, 2f, groundMask))
         {
             string surfaceTag = hit.collider.tag;
-
-            Debug.Log($"Raycast hit is {hit.collider.tag}");
 
 
             foreach (var surface in surfaceSounds)

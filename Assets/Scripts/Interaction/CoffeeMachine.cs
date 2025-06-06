@@ -46,7 +46,7 @@ public class CoffeeMachine : MonoBehaviour
             // Наполняем стакан визуально (например, меняем _FillAmount)
             float progress = Mathf.Clamp01(brewTimer / brewTime);
             //coffeeLiquid.material.SetFloat("_FillAmount", progress);
-            Debug.Log($"Coffee is brewing! {progress}%");
+            //Debug.Log($"Coffee is brewing! {progress}%");
             cup.UpdateLiquidInCup(progress);
             if (brewTimer >= brewTime)
             {
@@ -64,7 +64,7 @@ public class CoffeeMachine : MonoBehaviour
         //pourSound?.Play();
         //steamEffect?.Play();
         audioSource.Play();
-        Debug.Log("Start brewing coffee...");
+        //Debug.Log("Start brewing coffee...");
     }
 
     void FinishBrewing()
@@ -76,6 +76,6 @@ public class CoffeeMachine : MonoBehaviour
         audioSource.Stop();
         cup.SetCapTrigger(true);
         CoffeeStepManager.Instance.AdvanceStep();
-        Debug.Log("Coffee brewed.");
+        //Debug.Log("Coffee brewed.");
     }
 }

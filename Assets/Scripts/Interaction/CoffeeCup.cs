@@ -17,24 +17,17 @@ public class CoffeeCup : Interactable
         Cap.SetActive(false);
         CapTrigger.SetActive(false);
         isCoffeReady = false;
+        CanDrag = true;
+
     }
 
-    //private Vector3 targetPosition;
     private float holdDistance;
 
     void FixedUpdate()
     {
         if (isHeld)
         {
-            //Vector3 direction = (holdPoint.position - transform.position);
-            //rb.MovePosition(transform.position + direction * 10f * Time.fixedDeltaTime); // можно подкрутить скорость
 
-            //////////
-            //Vector3 targetPosition = Camera.main.transform.position + Camera.main.transform.forward * holdDistance;
-
-            //Vector3 direction = targetPosition - transform.position;
-            //rb.MovePosition(transform.position + direction * 10f * Time.fixedDeltaTime); 
-            //rb.freezeRotation = true;
 
             float maxHoldDistance = 1.0f; 
 
@@ -60,6 +53,9 @@ public class CoffeeCup : Interactable
             rb.useGravity = false;
             rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             holdDistance = Vector3.Distance(Camera.main.transform.position, transform.position);
+            CanDrag = false;
+            SetOutline(false);
+
 
             if (CoffeeStepManager.Instance.IsCurrentStep(CoffeeStepManager.Step.GrabCup))
                 CoffeeStepManager.Instance.AdvanceStep();
@@ -70,6 +66,8 @@ public class CoffeeCup : Interactable
             rb.useGravity = true;
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+            CanDrag = true;
+
 
             if (CoffeeStepManager.Instance.IsCurrentStep(CoffeeStepManager.Step.PlaceCup))
                 CoffeeStepManager.Instance.ReverceStep();
