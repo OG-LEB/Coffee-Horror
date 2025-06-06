@@ -17,6 +17,7 @@ public class NpcController : MonoBehaviour
     //private bool isWatchingPlayer = false;
 
     private Animator animator;
+    private NpcFootsteps footstepsScript;
 
     [SerializeField] private GameObject MoneyText;
     private void Start()
@@ -24,6 +25,7 @@ public class NpcController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
         animator = GetComponent<Animator>();
+        footstepsScript = GetComponent<NpcFootsteps>();
     }
 
     private void Update()
@@ -58,6 +60,7 @@ public class NpcController : MonoBehaviour
     {
         isFollowing = true;
         animator.SetBool("isWalking", true);
+        footstepsScript.StartFootsteps();
 
         while (Vector3.Distance(transform.position, player.position) > 2f)
         {
@@ -67,6 +70,8 @@ public class NpcController : MonoBehaviour
 
         agent.ResetPath();
         animator.SetBool("isWalking", false);
+        footstepsScript.StopFootsteps();
+
 
         NotificationSystem.Instance.ShowMessage("Привет. Они говорили, что ты придёшь. Ты ведь умеешь готовить кофе, верно?.. Сделай один для меня. Мне нужно немного тепла.", 5f);
 
@@ -78,6 +83,8 @@ public class NpcController : MonoBehaviour
         isFollowing = false;
         isReturning = true;
         animator.SetBool("isWalking", true);
+        footstepsScript.StartFootsteps();
+
 
         agent.SetDestination(startPosition.position);
 
@@ -88,7 +95,8 @@ public class NpcController : MonoBehaviour
 
         isReturning = false;
         animator.SetBool("isWalking", false);
-        //isWatchingPlayer = true;
+        footstepsScript.StopFootsteps();
+
     }
 
     private void OnTriggerEnter(Collider other)
