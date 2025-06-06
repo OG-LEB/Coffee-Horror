@@ -18,6 +18,7 @@ public class NpcController : MonoBehaviour
 
     private Animator animator;
 
+    [SerializeField] private GameObject MoneyText;
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -97,6 +98,8 @@ public class NpcController : MonoBehaviour
             if (other.GetComponent<CoffeeCup>().IsCoffeeReady())
             {
                 NotificationSystem.Instance.ShowMessage("Спасибо за кофе! Держи немного денег за работу.", 2f);
+                //Money Sound
+                Instantiate(MoneyText, other.transform.position, Quaternion.identity);
                 Destroy(other.gameObject);
             }
             else
