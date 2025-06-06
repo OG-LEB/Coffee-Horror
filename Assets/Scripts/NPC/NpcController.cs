@@ -6,7 +6,7 @@ public class NpcController : MonoBehaviour
 {
     public Transform player;
     public float triggerDistance = 5f;
-    public float waitTime = 2f;
+    //public float waitTime = 2f;
     public float speed;
 
     private NavMeshAgent agent;
@@ -27,22 +27,14 @@ public class NpcController : MonoBehaviour
 
     private void Update()
     {
-        //if (isWatchingPlayer)
-        //{
-        //    transform.LookAt(player);
-        //}
+
 
         if (isFollowing || isReturning) return;
 
         if (isCoffeOrdered)
         {
-            //float currentY = transform.eulerAngles.y;
-            //float newY = Mathf.MoveTowardsAngle(currentY, 35f, 180f * Time.deltaTime);
-
-            //transform.rotation = Quaternion.Euler(0f, newY, 0f);
-
             Vector3 direction = (player.position - transform.position).normalized;
-            direction.y = 0f; // Убираем наклон вверх/вниз, только по горизонтали
+            direction.y = 0f;
 
             if (direction.magnitude > 0.01f)
             {
@@ -75,9 +67,11 @@ public class NpcController : MonoBehaviour
         agent.ResetPath();
         animator.SetBool("isWalking", false);
 
-        Debug.Log("NPC Talking!");
+        NotificationSystem.Instance.ShowMessage("Привет. Они говорили, что ты придёшь. Ты ведь умеешь готовить кофе, верно?.. Сделай один для меня. Мне нужно немного тепла.", 5f);
 
-        yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSeconds(6f);
+
+        CoffeeStepManager.Instance.AdvanceStep();
 
         isCoffeOrdered = true;
         isFollowing = false;
@@ -98,15 +92,16 @@ public class NpcController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (CoffeeStepManager.Instance.IsCurrentStep(CoffeeStepManager.Step.ServeToNPC) && other.CompareTag("CoffeeCup")) 
+        if (CoffeeStepManager.Instance.IsCurrentStep(CoffeeStepManager.Step.ServeToNPC) && other.CompareTag("CoffeeCup"))
         {
-            if (other.GetComponent<CoffeeCup>().IsCoffeeReady()) 
+            if (other.GetComponent<CoffeeCup>().IsCoffeeReady())
             {
-                Debug.Log("Cutscene and screamer!");
+                NotificationSystem.Instance.ShowMessage("Спасибо за кофе! Держи немного денег за работу.", 2f);
+                Destroy(other.gameObject);
             }
             else
             {
-                Debug.Log("Empty coffee!");
+                NotificationSystem.Instance.ShowMessage("Мне нужен кофе, а не пустой стаканчик!", 2f);
             }
         }
     }

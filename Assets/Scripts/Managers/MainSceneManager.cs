@@ -16,6 +16,7 @@ public class MainSceneManager : MonoBehaviour
         FriendlyCameraEffects.SetActive(false);
         EnterShopTrigger.SetActive(true);
         ExitShopTrigger.SetActive(false);
+        NotificationSystem.Instance.ShowMessage("Какое мрачное место. Надо осмотреться...", 5f);
     }
     private void SpawnPlayer() 
     {
@@ -34,5 +35,10 @@ public class MainSceneManager : MonoBehaviour
         FriendlyCameraEffects.SetActive(true);
         EnterShopTrigger.SetActive(false);
         ExitShopTrigger.SetActive(true);
+    }
+
+    public void Monologue(string message) 
+    {
+        NotificationSystem.Instance.ShowMessage(message, 5f);
     }
 }
